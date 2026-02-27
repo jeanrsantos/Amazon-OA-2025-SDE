@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HackerRank - Code Question 1</title>
+    <!-- Tailwind CSS para Estilização -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- MathJax para renderização das fórmulas matemáticas (ex: i^th, \le) -->
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    <style>
+        /* Estilos adicionais para barras de rolagem e blocos de código */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        code:not(pre code) {
+            background-color: #f1f5f9;
+            color: #0f172a;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-size: 0.875em;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased py-8 px-4 sm:px-6 lg:px-8">
+
+    <main class="max-w-4xl mx-auto bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+        
+        <!-- Cabeçalho da Questão -->
+        <header class="bg-gray-100 px-6 py-4 border-b border-gray-200">
+            <h1 class="text-2xl font-semibold text-gray-900">1. Code Question 1</h1>
+        </header>
+
+        <!-- Corpo Principal da Questão -->
+        <div class="p-6 md:p-8 space-y-8">
+            
+            <!-- Descrição do Problema -->
+            <section class="space-y-4 text-gray-700 leading-relaxed">
+                <p>
+                    The developers of Amazon are working on a prototype for a simple load-balancing algorithm. There are <code>num_servers</code> servers numbered from $0$ to $num\_servers - 1$ and the initial number of requests assigned to each server is $0$.
+                </p>
+                <p>
+                    In the $i^{th}$ second, a request comes from IP hash of <code>request[i]</code>, and it must be assigned to the server with the minimum number of requests among the servers from index $0$ to <code>request[i]</code>. For example, if <code>request[i] = 4</code>, the request must be assigned to the server with the minimum number of requests amongst the servers with id $[0, 1, 2, 3, 4]$. If there are multiple servers with the same minimum number of requests, choose the one with the minimum id. When a request is assigned to a server, its number of requests increases by 1.
+                </p>
+                <p>
+                    Given <code>num_servers</code> and the array <code>request</code>, for each request, find the id of the server it is assigned to.
+                </p>
+            </section>
+
+            <!-- Exemplo Passo a Passo -->
+            <section class="space-y-4">
+                <h2 class="text-xl font-semibold text-gray-900">Example</h2>
+                <p class="text-gray-700">Suppose <code>num_servers = 5</code>, $n = 5$ and <code>request = [3, 2, 3, 2, 4]</code>.</p>
+                
+                <p class="text-gray-700">The requests are processed as follows:</p>
+                
+                <div class="overflow-x-auto border border-gray-200 rounded-lg">
+                    <table class="min-w-full divide-y divide-gray-200 text-sm">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col" class="px-4 py-3 text-left font-medium text-gray-700">Request IP Hash</th>
+                                <th scope="col" class="px-4 py-3 text-left font-medium text-gray-700">Server Request Allocation</th>
+                                <th scope="col" class="px-4 py-3 text-left font-medium text-gray-700">Assigned to</th>
+                                <th scope="col" class="px-4 py-3 text-left font-medium text-gray-700">Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 bg-white align-top">
+                            <tr>
+                                <td class="px-4 py-3 whitespace-nowrap text-gray-900">3</td>
+                                <td class="px-4 py-3 whitespace-nowrap font-mono text-gray-600">[0, 0, 0, 0, 0]</td>
+                                <td class="px-4 py-3 whitespace-nowrap font-semibold">0</td>
+                                <td class="px-4 py-3 text-gray-600 min-w-[300px]">The request must be assigned to the server with the minimum number of requests amongst the first 3 servers. Since all the first three servers have 0 requests assigned, it is assigned to the one with the minimum id, i.e. the server with id 0.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="px-4 py-3 whitespace-nowrap text-gray-900">2</td>
+                                <td class="px-4 py-3 whitespace-nowrap font-mono text-gray-600">[1, 0, 0, 0, 0]</td>
+                                <td class="px-4 py-3 whitespace-nowrap font-semibold">1</td>
+                                <td class="px-4 py-3 text-gray-600 min-w-[300px]">The request must be assigned to the server with the minimum number of requests amongst the first 2 servers. Since server 1 has 0 requests assigned which is less than server 0 with 1 request, it is assigned to server 1.</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 whitespace-nowrap text-gray-900">3</td>
+                                <td class="px-4 py-3 whitespace-nowrap font-mono text-gray-600">[1, 1, 0, 0, 0]</td>
+                                <td class="px-4 py-3 whitespace-nowrap font-semibold">2</td>
+                                <td class="px-4 py-3 text-gray-600 min-w-[300px]">Amongst the first 3 servers, the one with the minimum requests is server 2.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="px-4 py-3 whitespace-nowrap text-gray-900">2</td>
+                                <td class="px-4 py-3 whitespace-nowrap font-mono text-gray-600">[1, 1, 1, 0, 0]</td>
+                                <td class="px-4 py-3 whitespace-nowrap font-semibold">0</td>
+                                <td class="px-4 py-3 text-gray-600 min-w-[300px]">Both of the first two servers have the same number of requests assigned. Hence the request is assigned to server 0 as it has the minimum id.</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 whitespace-nowrap text-gray-900">4</td>
+                                <td class="px-4 py-3 whitespace-nowrap font-mono text-gray-600">[2, 1, 1, 0, 0]</td>
+                                <td class="px-4 py-3 whitespace-nowrap font-semibold">3</td>
+                                <td class="px-4 py-3 text-gray-600 min-w-[300px]">The request must be assigned to the server with the minimum number of requests amongst the first 4 servers. The server with minimum requests is server 3.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <p class="text-gray-700 mt-4">Hence the answer is <code>[0, 1, 2, 0, 3]</code>.</p>
+            </section>
+
+            <!-- Descrição da Função -->
+            <section class="space-y-4">
+                <h2 class="text-xl font-semibold text-gray-900">Function Description</h2>
+                <p class="text-gray-700">Complete the function <code>findRequestTarget</code> in the editor below.</p>
+                
+                <p class="text-gray-700"><code>findRequestTarget</code> takes the following arguments:</p>
+                <ul class="list-disc pl-5 space-y-1 text-gray-700">
+                    <li><code>int num_servers</code>: the number of servers</li>
+                    <li><code>int requests[n]</code>: the sizes of the requests</li>
+                </ul>
+
+                <p class="text-gray-700 font-semibold mt-4">Returns</p>
+                <ul class="list-disc pl-5 space-y-1 text-gray-700">
+                    <li><code>int[n]</code>: the ids of the servers each request is assigned to</li>
+                </ul>
+            </section>
+
+            <!-- Restrições -->
+            <section class="space-y-4">
+                <h2 class="text-xl font-semibold text-gray-900">Constraints</h2>
+                <ul class="list-disc pl-5 space-y-2 text-gray-700">
+                    <li>$1 \le num\_servers \le 10^5$</li>
+                    <li>$0 \le requests[i] < num\_servers$</li>
+                </ul>
+            </section>
+
+            <!-- Casos de Teste / Exemplos -->
+            <div class="space-y-6">
+                <!-- Sample 0 -->
+                <section class="bg-gray-800 text-gray-100 rounded-lg overflow-hidden">
+                    <div class="bg-gray-900 px-4 py-2 text-sm font-semibold tracking-wide flex justify-between">
+                        <span>▼ Sample Case 0</span>
+                    </div>
+                    <div class="p-4 space-y-4">
+                        <div>
+                            <h3 class="text-xs text-gray-400 uppercase tracking-wider mb-2 font-semibold">Sample Input For Custom Testing</h3>
+                            <pre class="font-mono text-sm overflow-x-auto"><code>STDIN      FUNCTION
+-----      --------
+5       -> num_servers = 5
+4       -> requests[] size n = 4
+4       -> requests = [4, 0, 2, 2]
+0
+2
+2</code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Sample 1 -->
+                <section class="bg-gray-800 text-gray-100 rounded-lg overflow-hidden">
+                    <div class="bg-gray-900 px-4 py-2 text-sm font-semibold tracking-wide flex justify-between">
+                        <span>▼ Sample Case 1</span>
+                    </div>
+                    <div class="p-4 space-y-6">
+                        <div>
+                            <h3 class="text-xs text-gray-400 uppercase tracking-wider mb-2 font-semibold">Sample Input For Custom Testing</h3>
+                            <pre class="font-mono text-sm overflow-x-auto"><code>STDIN      FUNCTION
+-----      --------
+5       -> num_servers = 5
+4       -> requests[] size n = 4
+0       -> requests = [0, 1, 2, 3]
+1
+2
+3</code></pre>
+                        </div>
+                        <div>
+                            <h3 class="text-xs text-gray-400 uppercase tracking-wider mb-2 font-semibold">Sample Output</h3>
+                            <pre class="font-mono text-sm overflow-x-auto"><code>0
+1
+2
+3</code></pre>
+                        </div>
+                        <div>
+                            <h3 class="text-xs text-gray-400 uppercase tracking-wider mb-2 font-semibold">Explanation</h3>
+                            <p class="text-sm text-gray-300">Each request is assigned to the first index with the number of requests equal to $0$.</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+        </div>
+    </main>
+
+</body>
+</html>
